@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_notes_app/common/common.dart';
 import 'package:flutter_notes_app/common/shared/Loading.dart';
+import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SignIn extends HookConsumerWidget {
@@ -16,6 +17,18 @@ class SignIn extends HookConsumerWidget {
     final password = useState("");
     final errorMsg = useState("");
     final _formKey = useMemoized(() => GlobalKey<FormState>());
+
+    void _handleSubmit() async {
+      loadingState.value = true;
+      dynamic result = await ref
+          .read(authControllerProvider.notifier)
+          .signInUsingEmailAndPassword(email.value, password.value);
+      if (result == null) {
+        errorMsg.value = 'Failed to sign in using email/password';
+        print('error' + errorMsg.value);
+      }
+      loadingState.value = false;
+    }
 
     return loadingState.value
         ? const Loading()
@@ -64,7 +77,9 @@ class SignIn extends HookConsumerWidget {
                         ),
                         RaisedButton(
                           onPressed: () async {
-                            if (_formKey.currentState!.validate()) {}
+                            if (_formKey.currentState!.validate()) {
+                              _handleSubmit();
+                            }
                           },
                           color: Color(0xff99E2B4),
                           child: const Text(
@@ -75,6 +90,9 @@ class SignIn extends HookConsumerWidget {
                             ),
                           ),
                         ),
+                        Center(
+                          child: Text(errorMsg.value, style: errorStyle),
+                        )
                       ],
                     ),
                   ),

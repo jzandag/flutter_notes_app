@@ -101,7 +101,7 @@ class Register extends HookConsumerWidget {
                               _handleSubmit();
                             }
                           },
-                          color: Color(0xff99E2B4),
+                          color: Constants.mainColor,
                           child: const Text(
                             'Register',
                             style: TextStyle(

@@ -8,9 +8,7 @@ var textInputDecoration = InputDecoration(
   hintStyle: TextStyle(color: Colors.grey),
   focusColor: Constants.mainColor,
 );
-var expenseStyle = TextStyle(color: Colors.redAccent);
-var incomeStyle = TextStyle(color: Colors.greenAccent);
 
 class Constants {
-  static final mainColor = Colors.redAccent[100];
+  static const mainColor = Color(0xff99E2B4);
 }

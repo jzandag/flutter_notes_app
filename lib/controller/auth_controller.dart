@@ -38,4 +38,10 @@ class AuthController extends StateNotifier<UserModel?> {
     return await _reader(authRepositoryProvider)
         .registerUsingEmailAndPassword(email, password);
   }
+
+  Future<dynamic> signInUsingEmailAndPassword(
+      String email, String password) async {
+    return await _reader(authRepositoryProvider)
+        .signInUsingEmailAndPassword(email, password);
+  }
 }
