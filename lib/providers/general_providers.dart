@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_notes_app/controller/auth_controller.dart';
 import 'package:flutter_notes_app/model/UserModel.dart';
 import 'package:flutter_notes_app/repository/auth_repository.dart';
+import 'package:flutter_notes_app/repository/note_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final firebaseAuthProvider =
@@ -13,6 +14,10 @@ final firebaseFirestoreProvider =
 
 final authRepositoryProvider = Provider<AuthRepository>(
   (ref) => AuthRepository(ref.read),
+);
+
+final noteRepository = Provider<NoteRepository>(
+  (ref) => NoteRepository(ref.read),
 );
 
 final authControllerProvider =
