@@ -1,5 +1,6 @@
 class Note {
+  final String? uid;
   final String? note;
 
-  Note({this.note});
+  Note({this.uid, this.note});
 }

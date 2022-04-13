@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_notes_app/model/UserData.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 import '../model/note.dart';
 
@@ -9,7 +10,7 @@ abstract class BaseNoteRepository {
   Stream<UserData?>? get userNoteStream;
   Future<String> saveNote();
   Future<void> updateNote();
-  Future<void> deleteNote();
+  Future<void> deleteNote(String noteId);
   Future<dynamic> initializeUserData();
 }
 
@@ -33,15 +34,20 @@ class NoteRepository implements BaseNoteRepository {
   }
 
   @override
-  Future<void> deleteNote() {
-    // TODO: implement deleteNote
-    throw UnimplementedError();
+  Future<void> deleteNote(String noteId) async {
+    final batch = _reader(firebaseFirestoreProvider).batch();
+    await noteCollection?.doc(_reader(authControllerProvider)?.uid).update({
+      "notes": FieldValue.arrayRemove([
+        {"noteId": noteId}
+      ])
+    });
   }
 
   @override
-  Future initializeUserData() {
-    // TODO: implement initializeUserData
-    throw UnimplementedError();
+  Future initializeUserData() async {
+    return await noteCollection
+        ?.doc(_reader(authControllerProvider)?.uid)
+        .set({'notes': [], 'noteId': const Uuid().v1()});
   }
 
   @override
