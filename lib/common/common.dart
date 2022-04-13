@@ -11,4 +11,5 @@ var textInputDecoration = InputDecoration(
 
 class Constants {
   static const mainColor = Color(0xff99E2B4);
+  static const secondaryMainColor = Color(0xff57cc99);
 }

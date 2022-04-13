@@ -21,7 +21,7 @@ class SignIn extends HookConsumerWidget {
     void _handleSubmit() async {
       loadingState.value = true;
       dynamic result = await ref
-          .read(authControllerProvider.notifier)
+          .read(authRepositoryProvider)
           .signInUsingEmailAndPassword(email.value, password.value);
       if (result == null) {
         errorMsg.value = 'Failed to sign in using email/password';

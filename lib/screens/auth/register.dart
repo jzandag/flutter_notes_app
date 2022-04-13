@@ -22,7 +22,7 @@ class Register extends HookConsumerWidget {
     void _handleSubmit() async {
       loadingState.value = true;
       dynamic result = await ref
-          .read(authControllerProvider.notifier)
+          .read(authRepositoryProvider)
           .registerUsingEmailAndPassword(email.value, password.value);
       if (result == null) {
         errorMsg.value = 'Failed to register using email/password';

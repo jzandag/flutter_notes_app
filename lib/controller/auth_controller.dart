@@ -24,24 +24,9 @@ class AuthController extends StateNotifier<UserModel?> {
 
   void appStarted() async {
     final user = _reader(authRepositoryProvider).getCurrentUser();
-    if (user == null) {
-      // TODO
-    }
   }
 
   Future<void> signOut() async {
     await _reader(authRepositoryProvider).signOut();
-  }
-
-  Future<dynamic> registerUsingEmailAndPassword(
-      String email, String password) async {
-    return await _reader(authRepositoryProvider)
-        .registerUsingEmailAndPassword(email, password);
-  }
-
-  Future<dynamic> signInUsingEmailAndPassword(
-      String email, String password) async {
-    return await _reader(authRepositoryProvider)
-        .signInUsingEmailAndPassword(email, password);
   }
 }
