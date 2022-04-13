@@ -3,12 +3,14 @@ import 'package:flutter_notes_app/model/UserModel.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-// we create abstract repository so we can easily create mock repository incase we implement testing in our app
+// we create abstract repository so we can easily create mock repository in case we implement testing in our app
 abstract class BaseAuthRepository {
-  Stream<UserModel?> get authStateChanges;
+  Stream<UserModel?> get authStateChange;
   Future<void> signInAnon();
   UserModel? getCurrentUser();
   Future<void> signOut();
+  Future<dynamic> signInUsingEmailAndPassword(String email, String password);
+  Future<dynamic> registerUsingEmailAndPassword(String email, String password);
 }
 
 class AuthRepository implements BaseAuthRepository {
@@ -22,7 +24,7 @@ class AuthRepository implements BaseAuthRepository {
   }
 
   @override
-  Stream<UserModel?> get authStateChanges => _reader(firebaseAuthProvider)
+  Stream<UserModel?> get authStateChange => _reader(firebaseAuthProvider)
       .authStateChanges()
       .map(_userFromFirebaseUser);
 
@@ -49,7 +51,39 @@ class AuthRepository implements BaseAuthRepository {
     try {
       await _reader(firebaseAuthProvider).signOut();
     } catch (e) {
+      print('error in signout');
       print(e.toString());
+    }
+  }
+
+  @override
+  Future<dynamic> registerUsingEmailAndPassword(
+      String email, String password) async {
+    try {
+      UserCredential result = (await _reader(firebaseAuthProvider)
+          .createUserWithEmailAndPassword(email: email, password: password));
+      User? user = result.user;
+
+      print(user?.uid);
+      return _userFromFirebaseUser(user);
+    } catch (e) {
+      print('error in register');
+      print(e.toString());
+      return null;
+    }
+  }
+
+  @override
+  Future<dynamic> signInUsingEmailAndPassword(
+      String email, String password) async {
+    try {
+      UserCredential result = await _reader(firebaseAuthProvider)
+          .signInWithEmailAndPassword(email: email, password: password);
+      User? user = result.user;
+      return _userFromFirebaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
     }
   }
 }

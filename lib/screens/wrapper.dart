@@ -9,8 +9,7 @@ class Wrapper extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final authControllerState = ref.read(authControllerProvider);
-    print(authControllerState);
+    final authControllerState = ref.watch(authControllerProvider);
 
     if (authControllerState == null) {
       return AuthWrapper();

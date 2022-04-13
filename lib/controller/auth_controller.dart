@@ -12,7 +12,7 @@ class AuthController extends StateNotifier<UserModel?> {
   AuthController(this._reader) : super(null) {
     _authStateChangesSubscription?.cancel();
     _authStateChangesSubscription = _reader(authRepositoryProvider)
-        .authStateChanges
+        .authStateChange
         .listen((user) => state = user);
   }
 
@@ -29,7 +29,13 @@ class AuthController extends StateNotifier<UserModel?> {
     }
   }
 
-  void signOut() async {
+  Future<void> signOut() async {
     await _reader(authRepositoryProvider).signOut();
+  }
+
+  Future<dynamic> registerUsingEmailAndPassword(
+      String email, String password) async {
+    return await _reader(authRepositoryProvider)
+        .registerUsingEmailAndPassword(email, password);
   }
 }

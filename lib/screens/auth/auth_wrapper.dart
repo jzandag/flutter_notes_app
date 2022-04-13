@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_notes_app/screens/auth/register.dart';
 import 'package:flutter_notes_app/screens/auth/signin.dart';
 
-class AuthWrapper extends StatefulWidget {
-  @override
-  _AuthWrapperState createState() => _AuthWrapperState();
-}
-
-class _AuthWrapperState extends State<AuthWrapper> {
-  bool showSignIn = true;
-  void toggleView() {
-    setState(() {
-      showSignIn = !showSignIn;
-    });
-  }
+class AuthWrapper extends HookWidget {
+  const AuthWrapper({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (showSignIn) {
+    ValueNotifier<bool> showSignIn = useState(true);
+    void toggleView() {
+      showSignIn.value = !showSignIn.value;
+    }
+
+    if (showSignIn.value) {
       return Container(
         child: SignIn(toggleView: toggleView),
       );

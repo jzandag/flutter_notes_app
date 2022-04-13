@@ -17,5 +17,5 @@ final authRepositoryProvider = Provider<AuthRepository>(
 
 final authControllerProvider =
     StateNotifierProvider<AuthController, UserModel?>(
-  (ref) => AuthController(ref.read)..appStarted(),
+  (ref) => AuthController(ref.read),
 );
