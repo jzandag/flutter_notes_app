@@ -4,7 +4,7 @@ import 'package:flutter_notes_app/common/common.dart';
 import 'package:flutter_notes_app/screens/wrapper.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-Future<dynamic> main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const ProviderScope(child: MyApp()));
@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        primaryColor: Constants.mainColor,
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(color: Constants.secondaryMainColor),
       ),
