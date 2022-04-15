@@ -3,6 +3,7 @@ import 'package:flutter_notes_app/controller/note_controller.dart';
 import 'package:flutter_notes_app/model/UserData.dart';
 import 'package:flutter_notes_app/model/note.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
+import 'package:flutter_notes_app/screens/home/note_form.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'note_grid.dart';
@@ -32,8 +33,16 @@ class HomeScreen extends HookConsumerWidget {
               ),
               itemCount: userNotes?.data?.length ?? 0,
               itemBuilder: (_, index) {
+                Note? currNote = userNotes?.data?[index];
                 return NoteGrid(
-                    note: userNotes?.data?[index].note ?? '', isPinned: false);
+                  note: Note(
+                      note: currNote?.note ?? '',
+                      createDate: currNote?.createDate,
+                      isPinned: currNote?.isPinned,
+                      colorId: currNote?.colorId,
+                      title: currNote?.title,
+                      uid: currNote?.uid),
+                );
               },
             )
           : const Center(
@@ -44,6 +53,8 @@ class HomeScreen extends HookConsumerWidget {
         onPressed: () {
           print('Add note btn click');
           print(userNotes);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => NoteForm()));
         },
         tooltip: 'Add Note',
         child: const Icon(Icons.add),
