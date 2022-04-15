@@ -3,4 +3,9 @@ class Note {
   final String? note;
 
   Note({this.uid, this.note});
+
+  @override
+  String toString() {
+    return note ?? '';
+  }
 }

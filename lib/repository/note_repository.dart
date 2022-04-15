@@ -15,18 +15,19 @@ abstract class BaseNoteRepository {
 }
 
 class NoteRepository implements BaseNoteRepository {
-  final Reader _reader;
+  final Ref _ref;
+  final String userId;
   CollectionReference? noteCollection;
 
-  NoteRepository(this._reader) {
-    noteCollection = _reader(firebaseFirestoreProvider).collection('notes');
+  NoteRepository(this._ref, this.userId) {
+    noteCollection = _ref.watch(firebaseFirestoreProvider).collection('notes');
   }
 
   // transaction data from snapshot
   UserData? _noteDataFromSnapshot(DocumentSnapshot snapshot) {
-    UserData user = UserData(uid: _reader(authControllerProvider)?.uid);
+    UserData user = UserData(uid: userId);
 
-    user.data = snapshot.get('note').map<Note>((doc) {
+    user.data = snapshot.get('notes').map<Note>((doc) {
       return Note(note: doc['note'] ?? []);
     }).toList();
 
@@ -35,8 +36,8 @@ class NoteRepository implements BaseNoteRepository {
 
   @override
   Future<void> deleteNote(String noteId) async {
-    final batch = _reader(firebaseFirestoreProvider).batch();
-    await noteCollection?.doc(_reader(authControllerProvider)?.uid).update({
+    // final batch = _reader(firebaseFirestoreProvider).batch();
+    await noteCollection?.doc(_ref.read(authControllerProvider)?.uid).update({
       "notes": FieldValue.arrayRemove([
         {"noteId": noteId}
       ])
@@ -46,7 +47,7 @@ class NoteRepository implements BaseNoteRepository {
   @override
   Future initializeUserData() async {
     return await noteCollection
-        ?.doc(_reader(authControllerProvider)?.uid)
+        ?.doc(_ref.read(authControllerProvider)?.uid)
         .set({'notes': [], 'noteId': const Uuid().v1()});
   }
 
@@ -64,8 +65,9 @@ class NoteRepository implements BaseNoteRepository {
 
   @override
   Stream<UserData?>? get userNoteStream {
+    print('user nnote strwam');
     return noteCollection
-        ?.doc(_reader(authControllerProvider)?.uid)
+        ?.doc(_ref.watch(authControllerProvider)?.uid)
         .snapshots()
         .map(_noteDataFromSnapshot);
   }

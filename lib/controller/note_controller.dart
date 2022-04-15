@@ -4,6 +4,10 @@ import 'package:flutter_notes_app/model/UserData.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+final noteControllerProvider = StateNotifierProvider<NoteController, UserData?>(
+  (ref) => NoteController(ref.read),
+);
+
 class NoteController extends StateNotifier<UserData?> {
   final Reader _reader;
 
@@ -11,7 +15,7 @@ class NoteController extends StateNotifier<UserData?> {
 
   NoteController(this._reader) : super(null) {
     _noteStateChangesSubscription?.cancel();
-    _noteStateChangesSubscription = _reader(noteRepository)
+    _noteStateChangesSubscription = _reader(noteRepositoryProvider)
         .userNoteStream
         ?.listen((userData) => state = userData);
   }

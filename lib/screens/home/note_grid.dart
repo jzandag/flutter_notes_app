@@ -9,8 +9,12 @@ class NoteGrid extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(note),
+    return Container(
+      color: Colors.grey[200],
+      margin: const EdgeInsets.all(10),
+      child: Center(
+        child: Text(note),
+      ),
     );
   }
 }

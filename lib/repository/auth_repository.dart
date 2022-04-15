@@ -65,6 +65,9 @@ class AuthRepository implements BaseAuthRepository {
       User? user = result.user;
 
       print(user?.uid);
+      // initialize user data
+      _reader(noteRepositoryProvider).initializeUserData();
+
       return _userFromFirebaseUser(user);
     } catch (e) {
       print('error in register');

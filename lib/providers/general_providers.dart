@@ -16,8 +16,8 @@ final authRepositoryProvider = Provider<AuthRepository>(
   (ref) => AuthRepository(ref.read),
 );
 
-final noteRepository = Provider<NoteRepository>(
-  (ref) => NoteRepository(ref.read),
+final noteRepositoryProvider = Provider<NoteRepository>(
+  (ref) => NoteRepository(ref, ref.watch(authControllerProvider)?.uid ?? ''),
 );
 
 final authControllerProvider =
