@@ -34,6 +34,7 @@ class HomeScreen extends HookConsumerWidget {
               itemCount: userNotes?.data?.length ?? 0,
               itemBuilder: (_, index) {
                 Note? currNote = userNotes?.data?[index];
+                print('gr' + (currNote?.uid ?? ''));
                 return NoteGrid(
                   note: Note(
                       note: currNote?.note ?? '',
@@ -41,7 +42,8 @@ class HomeScreen extends HookConsumerWidget {
                       isPinned: currNote?.isPinned,
                       colorId: currNote?.colorId,
                       title: currNote?.title,
-                      uid: currNote?.uid),
+                      uid: currNote?.uid,
+                      userId: currNote?.userId),
                 );
               },
             )

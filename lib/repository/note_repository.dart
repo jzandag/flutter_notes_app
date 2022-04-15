@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_notes_app/model/UserData.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uuid/uuid.dart';
 
 import '../model/note.dart';
 
@@ -24,31 +23,14 @@ class NoteRepository implements BaseNoteRepository {
   }
 
   // transaction data from snapshot
-  UserData? _noteDataFromSnapshot(DocumentSnapshot snapshot) {
+  UserData? _noteDataFromSnapshot(QuerySnapshot snapshot) {
     UserData user = UserData(uid: userId);
 
-    user.data = snapshot.get('notes').map<Note>((doc) {
-      return Note(
-        note: doc['note'] ?? '',
-        createDate: doc['create_date'],
-        isPinned: doc['isPinned'],
-        colorId: doc['colorId'],
-        title: doc['title'],
-        uid: doc['uid'],
-      );
-    }).toList();
+    user.data = snapshot.docs
+        .map<Note>((doc) => Note.fromSnapshot(doc, userId))
+        .toList();
 
     return user;
-  }
-
-  @override
-  Future<void> deleteNote(String noteId) async {
-    // final batch = _reader(firebaseFirestoreProvider).batch();
-    await noteCollection?.doc(_ref.read(authControllerProvider)?.uid).update({
-      "notes": FieldValue.arrayRemove([
-        {"uid": noteId}
-      ])
-    });
   }
 
   @override
@@ -60,41 +42,42 @@ class NoteRepository implements BaseNoteRepository {
 
   @override
   Future<void> saveNote(Note data) async {
-    await noteCollection?.doc(userId).update({
-      "notes": FieldValue.arrayUnion([
-        {
-          "title": data.title,
-          "note": data.note,
-          "create_date": data.createDate,
-          "uid": const Uuid().v1(),
-          "colorId": data.colorId,
-          "isPinned": false,
-        }
-      ])
+    await noteCollection?.doc().set({
+      "title": data.title,
+      "note": data.note,
+      "create_date": data.createDate,
+      "colorId": data.colorId,
+      "isPinned": false,
+      "user_id": userId
     });
   }
 
   @override
   Future<void> updateNote(Note data) async {
-    await noteCollection?.doc(userId).update({
-      "notes": FieldValue.arrayUnion([
-        {
-          "title": data.title,
-          "note": data.note,
-          "create_date": data.createDate,
-          "uid": data.uid,
-          "colorId": data.colorId,
-          "isPinned": false,
-        }
-      ])
+    print('update, ' + (data.uid ?? ''));
+    await noteCollection?.doc(data.uid).update({
+      "title": data.title,
+      "note": data.note,
+      "colorId": data.colorId,
+      "isPinned": false,
     });
   }
 
   @override
+  Future<void> deleteNote(String noteId) async {
+    try {
+      print('delete function');
+      await noteCollection?.doc(noteId).delete();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  @override
   Stream<UserData?>? get userNoteStream {
-    print('user nnote strwam');
+    print('user note stream' + userId);
     return noteCollection
-        ?.doc(_ref.watch(authControllerProvider)?.uid)
+        ?.where("user_id", isEqualTo: userId)
         .snapshots()
         .map(_noteDataFromSnapshot);
   }

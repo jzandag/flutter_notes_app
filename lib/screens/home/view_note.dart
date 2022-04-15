@@ -1,51 +1,70 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_notes_app/common/common.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../model/note.dart';
 
-class NoteForm extends HookConsumerWidget {
-  NoteForm({Key? key}) : super(key: key);
-  final String dateNow = DateFormat.yMd().add_jm().format(DateTime.now());
+class ViewNote extends HookConsumerWidget {
+  final Note note;
+  ViewNote({Key? key, required this.note}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ValueNotifier<int> colorId =
-        useState(Random().nextInt(Constants.notesColorList.length));
+    int colorId = note.colorId ?? 0;
 
-    TextEditingController _titleController = TextEditingController();
-    TextEditingController _mainController = TextEditingController();
+    TextEditingController _titleController =
+        TextEditingController(text: note.title);
+    TextEditingController _mainController =
+        TextEditingController(text: note.note);
 
     void _handleNoteSave() {
       final noteRepository = ref.watch(noteRepositoryProvider);
-      noteRepository.saveNote(
+      noteRepository.updateNote(
         Note(
           title: _titleController.text,
           note: _mainController.text,
-          createDate: dateNow,
-          colorId: colorId.value,
+          colorId: colorId,
+          userId: note.userId,
+          isPinned: false,
+          uid: note.uid,
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Note saved!"),
+        content: Text("Note updated!"),
+        duration: Duration(seconds: 2),
+      ));
+      Navigator.pop(context);
+    }
+
+    void _handleDelete() {
+      final noteRepository = ref.watch(noteRepositoryProvider);
+      print('uid ${note.uid}');
+      noteRepository.deleteNote(note.uid ?? '');
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Delete success!"),
         duration: Duration(seconds: 2),
       ));
       Navigator.pop(context);
     }
 
     return Scaffold(
-      backgroundColor: Constants.notesColorList[colorId.value],
+      backgroundColor: Constants.notesColorList[colorId],
       appBar: AppBar(
-        backgroundColor: Constants.notesColorList[colorId.value],
-        title: const Text("New Note"),
+        backgroundColor: Constants.notesColorList[colorId],
+        title: Text(note.title ?? 'Edit Note'),
         centerTitle: true,
         elevation: 1,
         iconTheme: const IconThemeData(color: Colors.black),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              print('delete button, ' + (note.uid ?? ''));
+              _handleDelete();
+            },
+            icon: const Icon(Icons.delete),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -60,7 +79,7 @@ class NoteForm extends HookConsumerWidget {
             const SizedBox(
               height: 8,
             ),
-            Text(dateNow),
+            Text(note.createDate ?? ''),
             const SizedBox(
               height: 20,
             ),
@@ -82,9 +101,9 @@ class NoteForm extends HookConsumerWidget {
           print(_mainController.text);
           _handleNoteSave();
         },
-        tooltip: 'Add Note',
+        tooltip: 'Update Note',
         icon: const Icon(Icons.edit),
-        label: const Text('Save Note'),
+        label: const Text('Update Note'),
       ),
     );
   }
