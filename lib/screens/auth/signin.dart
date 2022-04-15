@@ -26,8 +26,8 @@ class SignIn extends HookConsumerWidget {
       if (result == null) {
         errorMsg.value = 'Failed to sign in using email/password';
         print('error' + errorMsg.value);
+        loadingState.value = false;
       }
-      loadingState.value = false;
     }
 
     return loadingState.value

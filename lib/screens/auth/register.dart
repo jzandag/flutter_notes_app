@@ -27,8 +27,8 @@ class Register extends HookConsumerWidget {
       if (result == null) {
         errorMsg.value = 'Failed to register using email/password';
         print('error' + errorMsg.value);
+        loadingState.value = false;
       }
-      loadingState.value = false;
     }
 
     return loadingState.value
