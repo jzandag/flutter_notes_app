@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_notes_app/common/common.dart';
+import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:flutter_notes_app/screens/home/view_note.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../model/note.dart';
 
-class NoteGrid extends HookWidget {
+class NoteGrid extends HookConsumerWidget {
   final Note note;
   const NoteGrid({Key? key, required this.note}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final noteProvider = ref.watch(noteChangeNotifier);
     return InkWell(
       onTap: () {
         print('Note grid tap');
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ViewNote(note: note)));
+        noteProvider.setNote(note);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const ViewNote()));
       },
       child: Container(
           padding: const EdgeInsets.all(8),

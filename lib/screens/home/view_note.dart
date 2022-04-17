@@ -4,14 +4,15 @@ import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../model/note.dart';
+import 'note_color.dart';
 
 class ViewNote extends HookConsumerWidget {
-  final Note note;
-  ViewNote({Key? key, required this.note}) : super(key: key);
+  const ViewNote({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    int colorId = note.colorId ?? 0;
+    final noteProvider = ref.watch(noteChangeNotifier);
+    Note note = noteProvider.note;
 
     TextEditingController _titleController =
         TextEditingController(text: note.title);
@@ -24,7 +25,7 @@ class ViewNote extends HookConsumerWidget {
         Note(
           title: _titleController.text,
           note: _mainController.text,
-          colorId: colorId,
+          colorId: noteProvider.colorId,
           userId: note.userId,
           isPinned: false,
           uid: note.uid,
@@ -46,9 +47,9 @@ class ViewNote extends HookConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: Constants.notesColorList[colorId],
+      backgroundColor: Constants.notesColorList[noteProvider.colorId],
       appBar: AppBar(
-        backgroundColor: Constants.notesColorList[colorId],
+        backgroundColor: Constants.notesColorList[noteProvider.colorId],
         title: Text(note.title ?? 'Edit Note'),
         centerTitle: true,
         elevation: 1,
@@ -68,6 +69,9 @@ class ViewNote extends HookConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            NoteColor(
+              currentColor: noteProvider.colorId,
+            ),
             TextField(
               controller: _titleController,
               decoration: const InputDecoration(

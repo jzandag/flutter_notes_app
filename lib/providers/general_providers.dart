@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_notes_app/controller/auth_controller.dart';
 import 'package:flutter_notes_app/model/UserModel.dart';
+import 'package:flutter_notes_app/providers/note_change_notifier.dart';
 import 'package:flutter_notes_app/repository/auth_repository.dart';
 import 'package:flutter_notes_app/repository/note_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -24,3 +25,7 @@ final authControllerProvider =
     StateNotifierProvider<AuthController, UserModel?>(
   (ref) => AuthController(ref.read),
 );
+
+final noteChangeNotifier = ChangeNotifierProvider((ref) {
+  return NoteFormChangeNotifier();
+});

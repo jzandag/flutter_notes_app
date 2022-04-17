@@ -1,9 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_notes_app/common/common.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
+import 'package:flutter_notes_app/screens/home/note_color.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -15,9 +13,7 @@ class NoteForm extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ValueNotifier<int> colorId =
-        useState(Random().nextInt(Constants.notesColorList.length));
-
+    final noteProvider = ref.watch(noteChangeNotifier);
     TextEditingController _titleController = TextEditingController();
     TextEditingController _mainController = TextEditingController();
 
@@ -28,7 +24,7 @@ class NoteForm extends HookConsumerWidget {
           title: _titleController.text,
           note: _mainController.text,
           createDate: dateNow,
-          colorId: colorId.value,
+          colorId: noteProvider.colorId,
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -39,9 +35,9 @@ class NoteForm extends HookConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: Constants.notesColorList[colorId.value],
+      backgroundColor: Constants.notesColorList[noteProvider.colorId],
       appBar: AppBar(
-        backgroundColor: Constants.notesColorList[colorId.value],
+        backgroundColor: Constants.notesColorList[noteProvider.colorId],
         title: const Text("New Note"),
         centerTitle: true,
         elevation: 1,
@@ -52,9 +48,11 @@ class NoteForm extends HookConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(
+            NoteColor(
+              currentColor: noteProvider.colorId,
+            ),
+            const TextField(
+              decoration: InputDecoration(
                   border: InputBorder.none, hintText: 'Title...'),
               style: Constants.titleStyle,
             ),
