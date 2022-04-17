@@ -30,10 +30,7 @@ class ViewNote extends HookConsumerWidget {
           uid: note.uid,
         ),
       );
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Note updated!"),
-        duration: Duration(seconds: 2),
-      ));
+      Constants.showSnackBar(context, "Note updated!");
       Navigator.pop(context);
     }
 
@@ -75,6 +72,7 @@ class ViewNote extends HookConsumerWidget {
               controller: _titleController,
               decoration: const InputDecoration(
                   border: InputBorder.none, hintText: 'Title...'),
+              style: Constants.titleStyle,
             ),
             const SizedBox(
               height: 8,

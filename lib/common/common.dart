@@ -20,4 +20,14 @@ class Constants {
     Color(0xffe3b7d2), // violet
     Color(0xffbfe7f6), // blue
   ];
+
+  static const titleStyle =
+      TextStyle(fontWeight: FontWeight.w900, fontSize: 16);
+
+  static void showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      duration: const Duration(seconds: 2),
+    ));
+  }
 }

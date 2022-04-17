@@ -23,7 +23,20 @@ class NoteGrid extends HookWidget {
           margin: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text(note.title ?? ''), Text(note.createDate ?? '')],
+            children: [
+              Text(
+                note.title ?? '',
+                style: Constants.titleStyle,
+              ),
+              const SizedBox(
+                height: 6,
+              ),
+              Text(note.createDate ?? ''),
+              const SizedBox(
+                height: 6,
+              ),
+              Expanded(child: Text(note.note ?? ''))
+            ],
           )),
     );
   }

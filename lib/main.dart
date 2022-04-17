@@ -22,7 +22,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         primaryColor: Constants.mainColor,
         scaffoldBackgroundColor: Colors.white,
-        appBarTheme: const AppBarTheme(color: Constants.secondaryMainColor),
+        appBarTheme: const AppBarTheme(
+            color: Constants.secondaryMainColor,
+            titleTextStyle: TextStyle(
+                color: Colors.black, fontSize: 24, fontWeight: FontWeight.w800),
+            iconTheme: IconThemeData(color: Colors.black)),
       ),
       home: const Wrapper(),
     );

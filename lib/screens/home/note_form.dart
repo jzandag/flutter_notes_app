@@ -56,6 +56,7 @@ class NoteForm extends HookConsumerWidget {
               controller: _titleController,
               decoration: const InputDecoration(
                   border: InputBorder.none, hintText: 'Title...'),
+              style: Constants.titleStyle,
             ),
             const SizedBox(
               height: 8,
