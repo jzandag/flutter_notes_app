@@ -12,6 +12,7 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final noteProvider = ref.watch(noteChangeNotifier);
     final authControllerState = ref.read(authControllerProvider.notifier);
     final userNotes = ref.watch(noteControllerProvider);
 
@@ -56,6 +57,8 @@ class HomeScreen extends HookConsumerWidget {
         onPressed: () {
           print('Add note btn click');
           print(userNotes);
+          noteProvider.main = '';
+          noteProvider.title = '';
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => NoteForm()));
         },

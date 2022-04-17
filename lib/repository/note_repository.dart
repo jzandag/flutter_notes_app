@@ -47,7 +47,7 @@ class NoteRepository implements BaseNoteRepository {
       "note": data.note,
       "create_date": data.createDate,
       "colorId": data.colorId,
-      "isPinned": false,
+      "isPinned": data.isPinned,
       "user_id": userId
     });
   }
@@ -59,7 +59,7 @@ class NoteRepository implements BaseNoteRepository {
       "title": data.title,
       "note": data.note,
       "colorId": data.colorId,
-      "isPinned": false,
+      "isPinned": data.isPinned,
     });
   }
 

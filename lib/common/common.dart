@@ -31,4 +31,16 @@ class Constants {
       duration: const Duration(seconds: 2),
     ));
   }
+
+  static const appBarTheme = AppBarTheme(
+    color: Constants.secondaryMainColor,
+    titleTextStyle: TextStyle(
+      color: Colors.black,
+      fontSize: 24,
+      fontWeight: FontWeight.w800,
+    ),
+    iconTheme: IconThemeData(color: Colors.black),
+    elevation: 1,
+    centerTitle: true,
+  );
 }

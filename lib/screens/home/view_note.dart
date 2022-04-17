@@ -27,7 +27,7 @@ class ViewNote extends HookConsumerWidget {
           note: _mainController.text,
           colorId: noteProvider.colorId,
           userId: note.userId,
-          isPinned: false,
+          isPinned: note.isPinned,
           uid: note.uid,
         ),
       );
@@ -55,6 +55,14 @@ class ViewNote extends HookConsumerWidget {
         elevation: 1,
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [
+          IconButton(
+            onPressed: () async {
+              print('pin button, ' + (note.uid ?? ''));
+              noteProvider.reversePinned();
+            },
+            icon: Icon(Icons.push_pin,
+                color: note.isPinned ?? false ? Colors.black : Colors.grey),
+          ),
           IconButton(
             onPressed: () async {
               print('delete button, ' + (note.uid ?? ''));

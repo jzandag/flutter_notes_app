@@ -6,7 +6,7 @@ class Note {
   final String? note;
   final String? createDate;
   final int? colorId;
-  final bool? isPinned;
+  bool? isPinned;
   final String? userId;
 
   Note(

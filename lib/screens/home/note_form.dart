@@ -14,8 +14,10 @@ class NoteForm extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final noteProvider = ref.watch(noteChangeNotifier);
-    TextEditingController _titleController = TextEditingController();
-    TextEditingController _mainController = TextEditingController();
+    TextEditingController _titleController =
+        TextEditingController(text: noteProvider.title);
+    TextEditingController _mainController =
+        TextEditingController(text: noteProvider.main);
 
     void _handleNoteSave() {
       final noteRepository = ref.watch(noteRepositoryProvider);
@@ -25,6 +27,7 @@ class NoteForm extends HookConsumerWidget {
           note: _mainController.text,
           createDate: dateNow,
           colorId: noteProvider.colorId,
+          isPinned: noteProvider.isPinned,
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -39,9 +42,17 @@ class NoteForm extends HookConsumerWidget {
       appBar: AppBar(
         backgroundColor: Constants.notesColorList[noteProvider.colorId],
         title: const Text("New Note"),
-        centerTitle: true,
-        elevation: 1,
-        iconTheme: const IconThemeData(color: Colors.black),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              noteProvider.changeNewNotePinned();
+            },
+            icon: Icon(
+              Icons.push_pin,
+              color: noteProvider.isPinned ? Colors.black : Colors.grey,
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -51,10 +62,12 @@ class NoteForm extends HookConsumerWidget {
             NoteColor(
               currentColor: noteProvider.colorId,
             ),
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(
                   border: InputBorder.none, hintText: 'Title...'),
               style: Constants.titleStyle,
+              onChanged: (val) => noteProvider.setTitle(val),
             ),
             const SizedBox(
               height: 8,
@@ -71,6 +84,7 @@ class NoteForm extends HookConsumerWidget {
                 border: InputBorder.none,
                 hintText: 'Enter your note...',
               ),
+              onChanged: (val) => noteProvider.setMain(val),
             ),
           ],
         ),
