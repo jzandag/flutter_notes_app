@@ -25,12 +25,4 @@ class NoteController extends StateNotifier<UserData?> {
     _noteStateChangesSubscription?.cancel();
     super.dispose();
   }
-
-  void appStarted() async {
-    final user = _reader(authRepositoryProvider).getCurrentUser();
-  }
-
-  Future<void> signOut() async {
-    await _reader(authRepositoryProvider).signOut();
-  }
 }

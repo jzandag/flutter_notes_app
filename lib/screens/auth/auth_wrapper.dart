@@ -14,13 +14,9 @@ class AuthWrapper extends HookWidget {
     }
 
     if (showSignIn.value) {
-      return Container(
-        child: SignIn(toggleView: toggleView),
-      );
+      return SignIn(toggleView: toggleView);
     } else {
-      return Container(
-        child: Register(toggleView: toggleView),
-      );
+      return Register(toggleView: toggleView);
     }
   }
 }

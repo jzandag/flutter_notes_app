@@ -22,10 +22,6 @@ class AuthController extends StateNotifier<UserModel?> {
     super.dispose();
   }
 
-  void appStarted() async {
-    final user = _reader(authRepositoryProvider).getCurrentUser();
-  }
-
   Future<void> signOut() async {
     await _reader(authRepositoryProvider).signOut();
   }

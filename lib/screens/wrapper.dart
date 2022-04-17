@@ -12,9 +12,9 @@ class Wrapper extends HookConsumerWidget {
     final authControllerState = ref.watch(authControllerProvider);
 
     if (authControllerState == null) {
-      return AuthWrapper();
+      return const AuthWrapper();
     } else {
-      return HomeScreen();
+      return const HomeScreen();
     }
   }
 }

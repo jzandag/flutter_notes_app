@@ -36,12 +36,8 @@ class AuthRepository implements BaseAuthRepository {
   @override
   Future<void> signInAnon() async {
     try {
-      UserCredential userCredential =
-          await _reader(firebaseAuthProvider).signInAnonymously();
-      User? user = userCredential.user;
-      UserModel? usr = _userFromFirebaseUser(user);
+      await _reader(firebaseAuthProvider).signInAnonymously();
     } catch (e) {
-      print(e.toString());
       return;
     }
   }

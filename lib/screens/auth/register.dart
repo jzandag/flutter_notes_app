@@ -2,13 +2,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_notes_app/common/common.dart';
-import 'package:flutter_notes_app/common/shared/Loading.dart';
+import 'package:flutter_notes_app/common/shared/loading.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Register extends HookConsumerWidget {
   final Function toggleView;
-  const Register({required this.toggleView});
+  const Register({Key? key, required this.toggleView});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,11 +41,12 @@ class Register extends HookConsumerWidget {
               children: [
                 Container(
                   height: 200,
-                  margin: EdgeInsets.only(top: 100),
+                  margin: const EdgeInsets.only(top: 100),
                   child: Image.asset('assets/notes-logo.png'),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 40),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 30, horizontal: 40),
                   child: Form(
                     key: _formKey,
                     child: Column(

@@ -13,18 +13,20 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authControllerState = ref.read(authControllerProvider.notifier);
-    final noteProvider = ref.watch(noteChangeNotifier);
     final userNotes = ref.watch(noteControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Home"), actions: [
-        IconButton(
-          onPressed: () async {
-            await authControllerState.signOut();
-          },
-          icon: const Icon(Icons.logout),
-        )
-      ]),
+      appBar: AppBar(
+        title: const Text("Home"),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await authControllerState.signOut();
+            },
+            icon: const Icon(Icons.logout),
+          )
+        ],
+      ),
       body: userNotes?.data?.isNotEmpty ?? false
           ? GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

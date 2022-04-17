@@ -2,13 +2,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_notes_app/common/common.dart';
-import 'package:flutter_notes_app/common/shared/Loading.dart';
+import 'package:flutter_notes_app/common/shared/loading.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SignIn extends HookConsumerWidget {
   final Function toggleView;
-  const SignIn({required this.toggleView});
+  const SignIn({Key? key, required this.toggleView});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -81,7 +81,7 @@ class SignIn extends HookConsumerWidget {
                               _handleSubmit();
                             }
                           },
-                          color: Color(0xff99E2B4),
+                          color: const Color(0xff99E2B4),
                           child: const Text(
                             'Sign in',
                             style: TextStyle(
