@@ -39,13 +39,14 @@ class HomeScreen extends HookConsumerWidget {
                 print('gr' + (currNote?.uid ?? ''));
                 return NoteGrid(
                   note: Note(
-                      note: currNote?.note ?? '',
-                      createDate: currNote?.createDate,
-                      isPinned: currNote?.isPinned,
-                      colorId: currNote?.colorId,
-                      title: currNote?.title,
-                      uid: currNote?.uid,
-                      userId: currNote?.userId),
+                    note: currNote?.note ?? '',
+                    createDate: currNote?.createDate,
+                    isPinned: currNote?.isPinned,
+                    colorId: currNote?.colorId,
+                    title: currNote?.title,
+                    uid: currNote?.uid,
+                    userId: currNote?.userId,
+                  ),
                 );
               },
             )

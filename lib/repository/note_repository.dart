@@ -78,6 +78,7 @@ class NoteRepository implements BaseNoteRepository {
     print('user note stream' + userId);
     return noteCollection
         ?.where("user_id", isEqualTo: userId)
+        .orderBy("isPinned", descending: true)
         .snapshots()
         .map(_noteDataFromSnapshot);
   }

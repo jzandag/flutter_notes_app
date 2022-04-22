@@ -17,6 +17,7 @@ class NoteGrid extends HookConsumerWidget {
       onTap: () {
         print('Note grid tap');
         noteProvider.setNote(note);
+        noteProvider.colorId = note.colorId ?? 0;
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const ViewNote()));
       },
@@ -27,9 +28,19 @@ class NoteGrid extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                note.title ?? '',
-                style: Constants.titleStyle,
+              Row(
+                children: [
+                  note.isPinned == true
+                      ? const Icon(
+                          Icons.push_pin,
+                          color: Colors.orange,
+                        )
+                      : Container(),
+                  Text(
+                    note.title ?? '',
+                    style: Constants.titleStyle,
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 6,

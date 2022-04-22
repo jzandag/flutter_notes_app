@@ -30,7 +30,7 @@ class Note {
       isPinned: doc['isPinned'] ?? '',
       colorId: doc['colorId'] ?? '',
       title: doc['title'] ?? '',
-      uid: doc.reference.id,
+      uid: doc.id,
       userId: userId,
     );
   }
