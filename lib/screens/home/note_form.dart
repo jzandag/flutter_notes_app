@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_notes_app/common/common.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:flutter_notes_app/screens/home/note_color.dart';
+import 'package:flutter_notes_app/storageService.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -91,9 +92,12 @@ class NoteForm extends HookConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () {
-          print(_mainController.text);
-          _handleNoteSave();
+        onPressed: () async {
+          // for testing purpose
+          // print(_mainController.text);
+          // _handleNoteSave();
+          StorageService ss = StorageService();
+          ss.pickFile();
         },
         tooltip: 'Add Note',
         icon: const Icon(Icons.edit),
