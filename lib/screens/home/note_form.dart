@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_notes_app/common/common.dart';
+import 'package:flutter_notes_app/controller/storage_controller.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:flutter_notes_app/screens/home/note_color.dart';
-import 'package:flutter_notes_app/storageService.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -38,6 +40,7 @@ class NoteForm extends HookConsumerWidget {
       Navigator.pop(context);
     }
 
+    print(noteProvider.colorId);
     return Scaffold(
       backgroundColor: Constants.notesColorList[noteProvider.colorId],
       appBar: AppBar(
@@ -87,6 +90,13 @@ class NoteForm extends HookConsumerWidget {
               ),
               onChanged: (val) => noteProvider.setMain(val),
             ),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: noteProvider.imgPaths.length,
+                  itemBuilder: (context, i) {
+                    return Image.file(File(noteProvider.imgPaths[i]));
+                  }),
+            )
           ],
         ),
       ),
@@ -96,8 +106,7 @@ class NoteForm extends HookConsumerWidget {
           // for testing purpose
           // print(_mainController.text);
           // _handleNoteSave();
-          StorageService ss = StorageService();
-          ss.pickFile();
+          ref.watch(storageControllerProvider).chooseImage(context);
         },
         tooltip: 'Add Note',
         icon: const Icon(Icons.edit),

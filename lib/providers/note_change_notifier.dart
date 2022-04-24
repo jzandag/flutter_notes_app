@@ -6,11 +6,13 @@ class NoteFormChangeNotifier extends ChangeNotifier {
   bool isPinned = false;
   String title = '';
   String main = '';
+  List<String> imgPaths = [];
+  List<String> imgFileNames = [];
   late Note note;
 
   void changeColor(int color) {
+    print('color' + color.toString());
     colorId = color;
-
     notifyListeners();
   }
 
@@ -34,5 +36,20 @@ class NoteFormChangeNotifier extends ChangeNotifier {
 
   void setMain(String main) {
     this.main = main;
+  }
+
+  void addImage(Map imgMap) {
+    imgPaths.add(imgMap['path']);
+    imgFileNames.add(imgMap['fileName']);
+    notifyListeners();
+  }
+
+  void resetForm() {
+    main = '';
+    title = '';
+    imgPaths = [];
+    imgFileNames = [];
+    colorId = 0;
+    notifyListeners();
   }
 }

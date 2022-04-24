@@ -58,8 +58,7 @@ class HomeScreen extends HookConsumerWidget {
         onPressed: () {
           print('Add note btn click');
           print(userNotes);
-          noteProvider.main = '';
-          noteProvider.title = '';
+          noteProvider.resetForm();
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => NoteForm()));
         },
