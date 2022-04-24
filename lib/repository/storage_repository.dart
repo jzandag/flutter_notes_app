@@ -7,7 +7,7 @@ import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 abstract class BaseStorageRepository {
-  Future<void> saveFile(String filePath, String fileName);
+  Future<void> saveFile(String noteId, String filePath, String fileName);
 }
 
 class StorageRepository implements BaseStorageRepository {
@@ -21,7 +21,7 @@ class StorageRepository implements BaseStorageRepository {
   }
 
   @override
-  Future<void> saveFile(String filePath, String fileName) async {
+  Future<void> saveFile(String noteId, String filePath, String fileName) async {
     File file = File(filePath);
 
     try {
@@ -38,7 +38,7 @@ class StorageRepository implements BaseStorageRepository {
         print("Here is the URL of Image $url");
         await imageCollection
             ?.doc()
-            .set({"url": url, "note_id": "", "user_id": userId});
+            .set({"url": url, "note_id": noteId, "user_id": userId});
       }
     } on FirebaseException catch (e) {
       print(e.toString());

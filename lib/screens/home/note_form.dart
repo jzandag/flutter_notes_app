@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_notes_app/common/common.dart';
-import 'package:flutter_notes_app/controller/storage_controller.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:flutter_notes_app/screens/home/note_color.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../controller/storage_controller.dart';
 import '../../model/note.dart';
 
 class NoteForm extends HookConsumerWidget {
@@ -66,6 +66,12 @@ class NoteForm extends HookConsumerWidget {
             NoteColor(
               currentColor: noteProvider.colorId,
             ),
+            ElevatedButton.icon(
+                onPressed: () {
+                  ref.watch(storageControllerProvider).chooseImage(context);
+                },
+                icon: Icon(Icons.add),
+                label: Text('Add Image')),
             TextField(
               controller: _titleController,
               decoration: const InputDecoration(
@@ -104,9 +110,8 @@ class NoteForm extends HookConsumerWidget {
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () async {
           // for testing purpose
-          // print(_mainController.text);
-          // _handleNoteSave();
-          ref.watch(storageControllerProvider).chooseImage(context);
+          print(_mainController.text);
+          _handleNoteSave();
         },
         tooltip: 'Add Note',
         icon: const Icon(Icons.edit),

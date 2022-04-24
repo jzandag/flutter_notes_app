@@ -3,6 +3,7 @@ import 'package:flutter_notes_app/model/UserData.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../controller/storage_controller.dart';
 import '../model/note.dart';
 
 abstract class BaseNoteRepository {
@@ -42,7 +43,8 @@ class NoteRepository implements BaseNoteRepository {
 
   @override
   Future<void> saveNote(Note data) async {
-    await noteCollection?.doc().set({
+    DocumentReference<Object?>? doc = noteCollection?.doc();
+    await doc?.set({
       "title": data.title,
       "note": data.note,
       "create_date": data.createDate,
@@ -50,6 +52,16 @@ class NoteRepository implements BaseNoteRepository {
       "isPinned": data.isPinned,
       "user_id": userId
     });
+    if (_ref.watch(noteChangeNotifier).imgPaths.isNotEmpty) {
+      print(_ref.watch(noteChangeNotifier).imgPaths.length);
+      for (int x = 0; x < _ref.watch(noteChangeNotifier).imgPaths.length; x++) {
+        _ref.watch(storageControllerProvider).saveNoteImage(
+              doc?.id ?? '',
+              _ref.watch(noteChangeNotifier).imgPaths[x],
+              _ref.watch(noteChangeNotifier).imgFileNames[x],
+            );
+      }
+    }
   }
 
   @override

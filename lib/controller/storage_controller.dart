@@ -18,9 +18,13 @@ class StorageController {
       Constants.showSnackBar(context, 'Error in picking image');
       return;
     }
-    _ref
-        .watch(storageRepositoryProvider)
-        .saveFile(file['path'], file['fileName']);
+    // _ref
+    //     .watch(storageRepositoryProvider)
+    //     .saveFile(file['path'], file['fileName']);
+  }
+
+  void saveNoteImage(String noteId, String filePath, String fileName) {
+    _ref.watch(storageRepositoryProvider).saveFile(noteId, filePath, fileName);
   }
 
   void chooseImage(BuildContext context) async {
