@@ -16,6 +16,11 @@ class HomeScreen extends HookConsumerWidget {
     final authControllerState = ref.read(authControllerProvider.notifier);
     final userNotes = ref.watch(noteControllerProvider);
 
+    final size = MediaQuery.of(context).size;
+
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 3;
+    final double itemWidth = size.width / 2;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home"),
@@ -30,8 +35,9 @@ class HomeScreen extends HookConsumerWidget {
       ),
       body: userNotes?.data?.isNotEmpty ?? false
           ? GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
+                childAspectRatio: (itemWidth / itemHeight),
               ),
               itemCount: userNotes?.data?.length ?? 0,
               itemBuilder: (_, index) {
@@ -39,14 +45,14 @@ class HomeScreen extends HookConsumerWidget {
                 print('gr' + (currNote?.uid ?? ''));
                 return NoteGrid(
                   note: Note(
-                    note: currNote?.note ?? '',
-                    createDate: currNote?.createDate,
-                    isPinned: currNote?.isPinned,
-                    colorId: currNote?.colorId,
-                    title: currNote?.title,
-                    uid: currNote?.uid,
-                    userId: currNote?.userId,
-                  ),
+                      note: currNote?.note ?? '',
+                      createDate: currNote?.createDate,
+                      isPinned: currNote?.isPinned,
+                      colorId: currNote?.colorId,
+                      title: currNote?.title,
+                      uid: currNote?.uid,
+                      userId: currNote?.userId,
+                      images: currNote?.images),
                 );
               },
             )

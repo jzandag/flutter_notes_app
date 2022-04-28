@@ -44,4 +44,13 @@ class StorageRepository implements BaseStorageRepository {
       print(e.toString());
     }
   }
+
+  Future<List<String>> getNoteImages(String noteId) async {
+    List<String> urls = [];
+    await imageCollection
+        ?.where("note_id", isEqualTo: noteId)
+        .get()
+        .then((doc) => urls = doc.docs.map<String>((e) => e['url']).toList());
+    return urls;
+  }
 }

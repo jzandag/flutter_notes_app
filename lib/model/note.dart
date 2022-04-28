@@ -8,6 +8,7 @@ class Note {
   final int? colorId;
   bool? isPinned;
   final String? userId;
+  List<String>? images;
 
   Note(
       {this.uid,
@@ -16,7 +17,8 @@ class Note {
       this.createDate,
       this.colorId,
       this.isPinned,
-      this.userId});
+      this.userId,
+      this.images});
 
   @override
   String toString() {

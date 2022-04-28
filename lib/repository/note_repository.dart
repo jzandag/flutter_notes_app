@@ -30,6 +30,20 @@ class NoteRepository implements BaseNoteRepository {
     user.data = snapshot.docs
         .map<Note>((doc) => Note.fromSnapshot(doc, userId))
         .toList();
+    print('data image');
+    if (user.data != null) {
+      print('data image');
+      user.data?.forEach((note) {
+        String? noteId = note.uid;
+        Future<List<String>> future =
+            _ref.read(storageRepositoryProvider).getNoteImages(noteId ?? '');
+        future.then((value) {
+          print('zid' + noteId!);
+          print(value);
+          note.images = value;
+        });
+      });
+    }
 
     return user;
   }
