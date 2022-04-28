@@ -28,7 +28,11 @@ class NoteColor extends HookConsumerWidget {
                 onChangeColor(entry.key);
               },
               child: Container(
-                color: entry.value,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.black),
+                    color: entry.value),
+                margin: const EdgeInsets.symmetric(horizontal: 5),
                 height: height,
                 child:
                     currentColor == entry.key ? const Icon(Icons.check) : null,

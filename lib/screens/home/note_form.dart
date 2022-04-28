@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_notes_app/common/common.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
+import 'package:flutter_notes_app/screens/home/image.dart';
 import 'package:flutter_notes_app/screens/home/note_color.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -100,6 +101,9 @@ class NoteForm extends HookConsumerWidget {
               child: ListView.builder(
                   itemCount: noteProvider.imgPaths.length,
                   itemBuilder: (context, i) {
+                    return ImageContainer(
+                      filePath: noteProvider.imgPaths[i],
+                    );
                     return Image.file(File(noteProvider.imgPaths[i]));
                   }),
             )

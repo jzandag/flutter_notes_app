@@ -44,6 +44,13 @@ class NoteFormChangeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeImage(String filePath) {
+    int index = imgPaths.indexOf(filePath);
+    imgPaths.removeAt(index);
+    imgFileNames.removeAt(index);
+    notifyListeners();
+  }
+
   void resetForm() {
     main = '';
     title = '';
