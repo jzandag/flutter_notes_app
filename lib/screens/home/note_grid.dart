@@ -36,7 +36,11 @@ class NoteGrid extends HookConsumerWidget {
       child: Container(
         height: 700,
         padding: const EdgeInsets.all(8),
-        color: Constants.notesColorList[note.colorId ?? 0],
+        decoration: BoxDecoration(
+            border: note.isPinned == true
+                ? Border.all(color: Colors.black, width: 3)
+                : null,
+            color: Constants.notesColorList[note.colorId ?? 0]),
         margin: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
