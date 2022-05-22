@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_notes_app/common/common.dart';
 import 'package:flutter_notes_app/providers/general_providers.dart';
@@ -41,7 +39,6 @@ class NoteForm extends HookConsumerWidget {
       Navigator.pop(context);
     }
 
-    print(noteProvider.colorId);
     return Scaffold(
       backgroundColor: Constants.notesColorList[noteProvider.colorId],
       appBar: AppBar(
@@ -71,8 +68,8 @@ class NoteForm extends HookConsumerWidget {
                 onPressed: () {
                   ref.watch(storageControllerProvider).chooseImage(context);
                 },
-                icon: Icon(Icons.add),
-                label: Text('Add Image')),
+                icon: const Icon(Icons.add),
+                label: const Text('Add Image')),
             TextField(
               controller: _titleController,
               decoration: const InputDecoration(
@@ -104,7 +101,6 @@ class NoteForm extends HookConsumerWidget {
                     return ImageContainer(
                       filePath: noteProvider.imgPaths[i],
                     );
-                    return Image.file(File(noteProvider.imgPaths[i]));
                   }),
             )
           ],
@@ -113,8 +109,6 @@ class NoteForm extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () async {
-          // for testing purpose
-          print(_mainController.text);
           _handleNoteSave();
         },
         tooltip: 'Add Note',

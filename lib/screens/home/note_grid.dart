@@ -13,19 +13,13 @@ class NoteGrid extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final noteProvider = ref.watch(noteChangeNotifier);
-    print(note.images);
 
     Widget getImages() {
-      print('get images');
       if (note != null && note.images != null) {
         if (note.images?.isNotEmpty == true) {
-          return SizedBox(
-            child: Center(
-                child: Image.network(
-              note.images?.elementAt(0) ?? '',
-              fit: BoxFit.contain,
-            )),
-            height: 100,
+          return Image.network(
+            note.images?.elementAt(0) ?? '',
+            fit: BoxFit.contain,
           );
         }
       }
@@ -34,7 +28,6 @@ class NoteGrid extends HookConsumerWidget {
 
     return InkWell(
       onTap: () {
-        print('Note grid tap');
         noteProvider.setNote(note);
         noteProvider.colorId = note.colorId ?? 0;
         Navigator.push(
@@ -70,9 +63,6 @@ class NoteGrid extends HookConsumerWidget {
               height: 6,
             ),
             Expanded(child: Text(note.note ?? '')),
-            // Image.network(
-            //     "https://cdn.pixabay.com/photo/2016/11/09/16/24/virus-1812092_960_720.jpg",
-            //     fit: BoxFit.cover),
             getImages()
           ],
         ),

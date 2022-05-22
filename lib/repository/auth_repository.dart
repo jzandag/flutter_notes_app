@@ -47,7 +47,6 @@ class AuthRepository implements BaseAuthRepository {
     try {
       await _reader(firebaseAuthProvider).signOut();
     } catch (e) {
-      print('error in signout');
       print(e.toString());
     }
   }
@@ -59,10 +58,6 @@ class AuthRepository implements BaseAuthRepository {
       UserCredential result = (await _reader(firebaseAuthProvider)
           .createUserWithEmailAndPassword(email: email, password: password));
       User? user = result.user;
-
-      print(user?.uid);
-      // initialize user data
-      //_reader(noteRepositoryProvider).initializeUserData();
 
       return _userFromFirebaseUser(user);
     } catch (e) {

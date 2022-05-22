@@ -37,7 +37,6 @@ class ViewNote extends HookConsumerWidget {
 
     void _handleDelete() {
       final noteRepository = ref.watch(noteRepositoryProvider);
-      print('uid ${note.uid}');
       noteRepository.deleteNote(note.uid ?? '');
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Delete success!"),
@@ -57,7 +56,6 @@ class ViewNote extends HookConsumerWidget {
         actions: [
           IconButton(
             onPressed: () async {
-              print('pin button, ' + (note.uid ?? ''));
               noteProvider.reversePinned();
             },
             icon: Icon(Icons.push_pin,
@@ -65,7 +63,6 @@ class ViewNote extends HookConsumerWidget {
           ),
           IconButton(
             onPressed: () async {
-              print('delete button, ' + (note.uid ?? ''));
               _handleDelete();
             },
             icon: const Icon(Icons.delete),
@@ -108,7 +105,6 @@ class ViewNote extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
-          print(_mainController.text);
           _handleNoteSave();
         },
         tooltip: 'Update Note',

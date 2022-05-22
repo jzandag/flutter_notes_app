@@ -9,13 +9,10 @@ class StorageService {
     );
 
     if (result == null) {
-      print('file uploaded');
       return null;
     }
     final path = result.files.single.path;
     final fileName = result.files.single.name;
-    print(path);
-    print(fileName);
     return {
       'path': path,
       'fileName': fileName,
@@ -30,12 +27,7 @@ class StorageService {
     );
 
     if (result == null) {
-      print('file uploaded');
       return;
     }
-    final path = result.files.single.path;
-    final fileName = result.files.single.name;
-    print(path);
-    print(fileName);
   }
 }

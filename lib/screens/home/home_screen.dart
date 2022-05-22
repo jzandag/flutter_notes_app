@@ -42,7 +42,6 @@ class HomeScreen extends HookConsumerWidget {
               itemCount: userNotes?.data?.length ?? 0,
               itemBuilder: (_, index) {
                 Note? currNote = userNotes?.data?[index];
-                print('gr' + (currNote?.uid ?? ''));
                 return NoteGrid(
                   note: Note(
                       note: currNote?.note ?? '',
@@ -62,8 +61,6 @@ class HomeScreen extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
-          print('Add note btn click');
-          print(userNotes);
           noteProvider.resetForm();
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => NoteForm()));

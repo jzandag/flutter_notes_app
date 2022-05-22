@@ -25,7 +25,6 @@ class SignIn extends HookConsumerWidget {
           .signInUsingEmailAndPassword(email.value, password.value);
       if (result == null) {
         errorMsg.value = 'Failed to sign in using email/password';
-        print('error' + errorMsg.value);
         loadingState.value = false;
       }
     }
@@ -40,11 +39,11 @@ class SignIn extends HookConsumerWidget {
               children: [
                 Container(
                   height: 200,
-                  margin: EdgeInsets.only(top: 100),
+                  margin: const EdgeInsets.only(top: 100),
                   child: Image.asset('assets/notes-logo.png'),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(40),
+                  padding: const EdgeInsets.all(40),
                   child: Form(
                     key: _formKey,
                     child: Column(

@@ -30,16 +30,12 @@ class NoteRepository implements BaseNoteRepository {
     user.data = snapshot.docs
         .map<Note>((doc) => Note.fromSnapshot(doc, userId))
         .toList();
-    print('data image');
     if (user.data != null) {
-      print('data image');
       user.data?.forEach((note) {
         String? noteId = note.uid;
         Future<List<String>> future =
             _ref.read(storageRepositoryProvider).getNoteImages(noteId ?? '');
         future.then((value) {
-          print('zid' + noteId!);
-          print(value);
           note.images = value;
         });
       });
@@ -67,7 +63,6 @@ class NoteRepository implements BaseNoteRepository {
       "user_id": userId
     });
     if (_ref.watch(noteChangeNotifier).imgPaths.isNotEmpty) {
-      print(_ref.watch(noteChangeNotifier).imgPaths.length);
       for (int x = 0; x < _ref.watch(noteChangeNotifier).imgPaths.length; x++) {
         _ref.watch(storageControllerProvider).saveNoteImage(
               doc?.id ?? '',
@@ -80,7 +75,6 @@ class NoteRepository implements BaseNoteRepository {
 
   @override
   Future<void> updateNote(Note data) async {
-    print('update, ' + (data.uid ?? ''));
     await noteCollection?.doc(data.uid).update({
       "title": data.title,
       "note": data.note,
@@ -92,7 +86,6 @@ class NoteRepository implements BaseNoteRepository {
   @override
   Future<void> deleteNote(String noteId) async {
     try {
-      print('delete function');
       await noteCollection?.doc(noteId).delete();
     } catch (e) {
       print(e.toString());
@@ -101,7 +94,6 @@ class NoteRepository implements BaseNoteRepository {
 
   @override
   Stream<UserData?>? get userNoteStream {
-    print('user note stream' + userId);
     return noteCollection
         ?.where("user_id", isEqualTo: userId)
         .orderBy("isPinned", descending: true)

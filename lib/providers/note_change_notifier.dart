@@ -11,7 +11,6 @@ class NoteFormChangeNotifier extends ChangeNotifier {
   late Note note;
 
   void changeColor(int color) {
-    print('color' + color.toString());
     colorId = color;
     notifyListeners();
   }

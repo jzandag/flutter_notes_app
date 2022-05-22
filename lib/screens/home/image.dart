@@ -12,27 +12,24 @@ class ImageContainer extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final noteProvider = ref.watch(noteChangeNotifier);
 
-    return Container(
-      child: Stack(
-        children: [
-          Image.file(File(filePath)),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: IconButton(
-              onPressed: () {
-                noteProvider.removeImage(filePath);
-                print('remove image icon');
-              },
-              icon: const Icon(
-                Icons.highlight_remove_sharp,
-                color: Colors.white,
-                size: 36,
-              ),
+    return Stack(
+      children: [
+        Image.file(File(filePath)),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: IconButton(
+            onPressed: () {
+              noteProvider.removeImage(filePath);
+            },
+            icon: const Icon(
+              Icons.highlight_remove_sharp,
+              color: Colors.white,
+              size: 36,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

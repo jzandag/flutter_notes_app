@@ -26,7 +26,6 @@ class Register extends HookConsumerWidget {
           .registerUsingEmailAndPassword(email.value, password.value);
       if (result == null) {
         errorMsg.value = 'Failed to register using email/password';
-        print('error' + errorMsg.value);
         loadingState.value = false;
       }
     }
@@ -98,7 +97,6 @@ class Register extends HookConsumerWidget {
                         RaisedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              print('success validate');
                               _handleSubmit();
                             }
                           },
